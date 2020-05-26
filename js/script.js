@@ -107,7 +107,9 @@ function handleTyping() {
 const searchByName = () => {
   // Função que busca os usuários pelo nome.
   let filtered = inputSearch.value;
-  newAllUsers = allUsers.filter((people) => people.name.includes(filtered));
+  newAllUsers = allUsers.filter((people) =>
+    people.name.toLowerCase().includes(filtered.toLowerCase())
+  );
   // allUsers = allUsers.filter((people) => people.name.indexOf(filtered) > -1);
   render();
 };
