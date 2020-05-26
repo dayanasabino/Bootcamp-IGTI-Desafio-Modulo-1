@@ -96,12 +96,16 @@ const render = () => {
 function handleTyping() {
   // Evento de digitação, keyUp quando solta a tecla
 
-  if (event.key === 'Enter') {
-    searchByName();
-  }
-  render();
+  // if (event.key === 'Enter') {
+  //   searchByName();
+  // }
+  // render();
 
-  inputSearch.addEventListener('keyup', handleTyping);
+  // inputSearch.addEventListener('keyup', handleTyping);
+  // inputSearch.focus();
+
+  // Vai buscando a medida que digita
+  inputSearch.addEventListener('keyup', searchByName);
   inputSearch.focus();
 }
 
