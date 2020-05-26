@@ -7,7 +7,7 @@ let spanAvgAge = 0;
 
 let spanCountUser = 0;
 let allUsers = [];
-let newAllUsers = null;
+let newAllUsers = [];
 
 let btnSearch = null;
 let inputSearch = null;
@@ -15,9 +15,8 @@ let inputSearch = null;
 window.addEventListener('load', () => {
   mapDom();
   fetchPeople();
-  // Se a função tem parametro não esqueça de passar ele
-  // quando for chamar ela, Dayana!
-  handleTyping(event);
+  //handleTyping();
+  inputSearch.addEventListener('keyup', searchByName);
 });
 
 const mapDom = () => {
@@ -56,19 +55,19 @@ const fetchPeople = async () => {
       gender,
     };
   });
-  //newAllUsers = [...allUsers];
+  newAllUsers = allUsers;
   render(); // se nao carregar ele nao tras nada
 };
 
 const render = () => {
   // Ordena os nomes
-  allUsers = allUsers.sort((a, b) => {
+  newAllUsers = newAllUsers.sort((a, b) => {
     return a.name.localeCompare(b.name);
   });
   // Renderiza os itens na tela
   let peopleHTML = '<div>';
 
-  allUsers.forEach((people) => {
+  newAllUsers.forEach((people) => {
     const { name, urlImage, age } = people;
 
     const divHTML = `
@@ -93,54 +92,49 @@ const render = () => {
   refreshStatisticsAndUsers();
 };
 
+/*
 function handleTyping() {
-  // Evento de digitação, keyUp quando solta a tecla
-
-  // if (event.key === 'Enter') {
-  //   searchByName();
-  // }
-  // render();
-
-  // inputSearch.addEventListener('keyup', handleTyping);
-  // inputSearch.focus();
-
-  // Vai buscando a medida que digita
-  inputSearch.addEventListener('keyup', searchByName);
+  //Evento de digitação, keyUp quando solta a tecla
+  if (event.key === 'Enter') {
+    searchByName();
+  }
+  render();
+  inputSearch.addEventListener('keyup', handleTyping);
   inputSearch.focus();
-}
+  Vai buscando a medida que digita
+}*/
 
 const searchByName = () => {
   // Função que busca os usuários pelo nome.
   let filtered = inputSearch.value;
-  allUsers = allUsers.filter((people) => people.name.includes(filtered));
+  newAllUsers = allUsers.filter((people) => people.name.includes(filtered));
+  // allUsers = allUsers.filter((people) => people.name.indexOf(filtered) > -1);
   render();
-  console.log(filtered);
-  console.log(allUsers);
 };
 
 const refreshStatisticsAndUsers = () => {
   // Variável que recebe o tamanho do array de todos usuarios (filtrados ou não)
-  const qttUsersShow = allUsers.length;
+  const qttUsersShow = newAllUsers.length;
   // Exibe no campo mapeado na DOM
   spanCountUser.innerHTML = qttUsersShow;
 
   // Cálculo da soma e exibição na DOM
-  const sumAge = allUsers.reduce((acc, curr) => {
+  const sumAge = newAllUsers.reduce((acc, curr) => {
     return acc + curr.age;
   }, 0);
 
   spanSumAge.innerHTML = sumAge;
 
   // Cálculo da média e exibição na DOM
-  const avgAge = sumAge / allUsers.length;
+  const avgAge = sumAge / newAllUsers.length;
   spanAvgAge.innerHTML = avgAge.toFixed(2);
 
   // Exibir usuários Masculinos
-  const userMan = allUsers.filter((user) => user.gender === 'male');
+  const userMan = newAllUsers.filter((user) => user.gender === 'male');
   spanCountMan.innerHTML = userMan.length;
 
   // Exibir usuários Femininos
-  const userWoman = allUsers.filter((user) => user.gender === 'female');
+  const userWoman = newAllUsers.filter((user) => user.gender === 'female');
   spanCountWoman.innerHTML = userWoman.length;
 };
 
