@@ -1,3 +1,5 @@
+const base_url =
+  'https://randomuser.me/api/?seed=javascript&results=100&nat=BR&noinfo';
 let divShowUsers = 0;
 
 let spanCountMan = 0;
@@ -15,7 +17,6 @@ let inputSearch = null;
 window.addEventListener('load', () => {
   mapDom();
   fetchPeople();
-  //handleTyping();
   inputSearch.addEventListener('keyup', searchByName);
 });
 
@@ -42,9 +43,7 @@ const mapDom = () => {
 
 const fetchPeople = async () => {
   // Busca na api os dados e faz um map dos campos que vai usar
-  const res = await fetch(
-    'https://randomuser.me/api/?seed=javascript&results=100&nat=BR&noinfo'
-  );
+  const res = await fetch(base_url);
   const obj = await res.json();
   allUsers = obj.results.map((people) => {
     const { name, picture, dob, gender } = people;
@@ -92,18 +91,6 @@ const render = () => {
   refreshStatisticsAndUsers();
 };
 
-/*
-function handleTyping() {
-  //Evento de digitação, keyUp quando solta a tecla
-  if (event.key === 'Enter') {
-    searchByName();
-  }
-  render();
-  inputSearch.addEventListener('keyup', handleTyping);
-  inputSearch.focus();
-  Vai buscando a medida que digita
-}*/
-
 const searchByName = () => {
   // Função que busca os usuários pelo nome.
   let filtered = inputSearch.value;
@@ -140,11 +127,11 @@ const refreshStatisticsAndUsers = () => {
   spanCountWoman.innerHTML = userWoman.length;
 };
 
-const clear = () => {
+/*const clear = () => {
   //divUsuariosEncontrados.empty();
   //TotalUsuariosEncontrados.innerHTML = 0;
   spanCountMan.html(0);
   spanCountWoman.html(0);
   spanSumAge.html(0);
   spanAvgAge.html(0);
-};
+};*/
